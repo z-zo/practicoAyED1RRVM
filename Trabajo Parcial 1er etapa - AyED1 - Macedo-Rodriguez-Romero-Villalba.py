@@ -24,6 +24,7 @@
 #Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024 ->
 
 import random
+import MdeBusqueda
 objetivoClasificacion = 120
 
 #función I - determinar rango de validación
@@ -35,9 +36,9 @@ def validarRango (inf, sup, mensaje, mensajeError, corte):
 
 #función II - Validación ingresos de variables para legajo y edades de atletas con rangos
 def ingresarLegajos(legajos,edades):
-    legajo = validarRango(1000,9999,"Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024, por favor, Ingrese legajo (entre 1000 y 9999): para finalizar presione -1: ","Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ",-1)
+    legajo = validarRango(1000,9999,"Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024, por favor, Ingrese legajo (entre 1000 y 9999) o para finalizar presione -1: ","Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ",-1)
     while legajo !=-1:
-        pos= busqueda (legajos, legajo)
+        pos= MdeBusqueda.busqueda (legajos, legajo)
         if pos==-1:
             edad = int(input("Ingrese la edad del atleta (debe ser igual o mayor a 18 años): "))
             if edad <18 or edad>100:
@@ -50,21 +51,12 @@ def ingresarLegajos(legajos,edades):
         legajo = validarRango(1000,10000,"Ingrese legajo (entre 1000 y 9999): ","Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ",-1)
 
 #Función III - Carga de levantamientos de atletas al azar (3 intentos)
-def cargaLevantamiento (lista):
-    levantamiento = random.randint(80,200)
-    lista.append(levantamiento)
+def cargaLevantamiento (liLeg, liLev):
+    for i in range(len(liLeg)):
+            intentos = [random.randint(80, 200) for _ in range(3)]
+            liLev.append(intentos)
 
-#Función IV - busqueda en lista para identificar si hay duplicados
-def busqueda(lista, valorBuscado):
-    pos = -1
-    i = 0
-    while i<len(lista) and pos==-1:
-        if lista[i]==valorBuscado:
-            pos=i
-        i+=1
-    return pos
-
-#Función V - Tabla de clasificación
+#Función IV - Tabla de clasificación
 def mostrarLista(legajos, edades, levantamiento1, levantamiento2, levantamiento3):
     print("---------------------------------------------------------------------------------")
     print("\tTABLA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024")
@@ -75,7 +67,8 @@ def mostrarLista(legajos, edades, levantamiento1, levantamiento2, levantamiento3
         promedio = round((levantamiento1[i] + levantamiento2[i] + levantamiento3[i]) / 3)
         print("%6d | %4d | %3d kg    | %3d kg    | %3d kg    | %3d kg" % (legajos[i], edades[i], levantamiento1[i], levantamiento2[i], levantamiento3[i], promedio))
         print("---------------------------------------------------------------------------------")
-#Función VI - Porcentaje atletas clasificados al panamericano del total de participantes
+
+#Función V - Porcentaje atletas clasificados al panamericano del total de participantes
 def calcularPorcentajeClasificados(legajos, levantamiento1, levantamiento2, levantamiento3):
     clasificados = 0
     total = len(legajos)  # Total de atletas
@@ -92,7 +85,7 @@ def calcularPorcentajeClasificados(legajos, levantamiento1, levantamiento2, leva
 
     return porcentajeClasificados
 
-# Función VII mostrar levantamientoPesoMaximo
+# Función VI mostrar levantamientoPesoMaximo
 def levantamientoRecord(legajos, levantamiento1, levantamiento2, levantamiento3):
     record = 0
     legRec = 0
@@ -115,7 +108,7 @@ def levantamientoRecord(legajos, levantamiento1, levantamiento2, levantamiento3)
     print("---------------------------------------------------------------------------------------------------------")
     return print("El levantamiento record fue del competidor con el legajo", legRec, ", con un peso de ", record,"Kg")
 
-#función VIII - Consulta para jueces sobre el un legajo y su Peso Mínimo
+#función VII - Consulta para jueces sobre el un legajo y su Peso Mínimo
 def encontrarMinimo(levantamiento1, levantamiento2, levantamiento3, legajos, legajoBuscado):
     minimo = 201  # Usamos un valor inicial alto como 201, que no se confunda con levantamientos reales
     encontrado = 0  # Variable para indicar si se encontró el legajo buscado (0 no encontrado, 1 encontrado)
@@ -153,13 +146,12 @@ def main():
     legajos=[]
     edades=[]
     ingresarLegajos(legajos,edades)
-    levantamiento1 =[]
-    levantamiento2 =[]
-    levantamiento3 =[]
-    for i in range(len(legajos)):
-        cargaLevantamiento(levantamiento1)
-        cargaLevantamiento(levantamiento2)
-        cargaLevantamiento(levantamiento3)
+    levantamientos =[]
+
+    cargaLevantamiento(legajos, levantamientos)
+
+    print (levantamientos)
+
     mostrarLista(legajos, edades, levantamiento1, levantamiento2, levantamiento3)
     porcentajeClasificados = calcularPorcentajeClasificados(legajos, levantamiento1, levantamiento2, levantamiento3)
     print('El porcentaje de atletas clasificados al panamericano es: ',porcentajeClasificados,'%, felicidades a al/los participante(s) que gana(n) un ticket a la competencia internacional en Santiago de Chile 2025')
