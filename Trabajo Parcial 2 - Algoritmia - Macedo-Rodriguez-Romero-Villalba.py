@@ -1,4 +1,4 @@
-# Enunciado TP1, Programacion y Estructura de Datos
+# Enunciado TP1, Algoritmos y Estructura de Datos
 # [Macedo, Rodriguez, Romero Quirino y Villalba]
 
 # OBJETIVO DEL PROYECTO: 
