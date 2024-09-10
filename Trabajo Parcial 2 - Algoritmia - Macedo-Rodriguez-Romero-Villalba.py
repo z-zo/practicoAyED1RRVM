@@ -1,22 +1,23 @@
-# Enunciado TP2
-# [Rodriguez, Romero Quirino y Villalba]
+# Enunciado TP1, Programacion y Estructura de Datos
+# [Macedo, Rodriguez, Romero Quirino y Villalba]
 
-# Desarrolle un programa que simule una competencia de levantamiento,
-# con tres intentos de levantamiento olímpico de clean & jerk por cada atleta.
-# El programa debe permitir el ingreso del número de legajo entre 1000 a 9999 y
-# también debe permitir el registro de la edad de atletas
-# que deben ser validados como mayores a 18 años para poder participar.
-# la condición de fin del programa es ingresar la variable de finalización (-1).
+# OBJETIVO DEL PROYECTO: 
+#Nuestro objetivo es desarrollar un programa que se pueda utilizar en una competencia deportiva de levantamiento de pesas que lo puedan usar personas reales.
 
-# Se deben generar tres intentos de levantamientos en Kg aleatorios para cada atleta,
-# Si el promedio entre esos 3 levantamientos supera un objetivo llamado objetivo Clasificación
-# con un valor definido de 120 kilogramos, el atleta será clasificado en el torneo para los panamericanos.
-# Al finalizar este programa olímpico informará:
+#ALCANCE: 
 
-#   1 • Tabla con legajos, edades e intentos del 1er levantamiento, 2do levantamiento, 3er levantamiento y el promedio entre las tres.
-#   2 • Porcentaje de atletas clasificados superando los 120 kg promedio para el ir a los panamericanos.
-#   3 • EL intento de levantamiento máximo record de todo el torneo con su legajo de participante correspondiente.
-#   4 • Permitir al juez/usuario la consulta de un legajo en la lista informando su intento de peso mínimo de levantamiento.
+#Desarrolle de un programa que simula una competencia de levantamiento, con tres intentos de levantamiento olímpico de la técnica de Peso Muerto por cada atleta.
+#El programa permite el ingreso del número de legajo de los atletas entre 1000 a 9999 y también permite el registro de la edad de los atletas que son validados como mayores a 18 años para poder participar. 
+#La condición de fin es ingresar la variable de finalización (-1).
+#Se generarán tres intentos aleatorios de levantamientos en Kg para cada atleta, si el promedio entre esos 3 levantamientos supera un objetivo llamado objetivo Clasificación con un valor definido de 120 kilogramos; el atleta clasifica a los futuros panamericanos en Santiago de Chile 2025.
+#Se desarrollara una funcion de busqueda en un modulo que sera llamado desde el codigo principal.
+
+#A continuacion el programa solicitara el ingreso por medio de usuario y contraseña de un juez para acceder a la informacion de:
+
+#• Una lista con [legajos], [edades] y una matriz con los tres levantamientos relacionados al legajo.
+#• Porcentaje de atletas clasificados a los panamericanos superando los 120kgs promedio entre los tres intentos.
+#• El intento de levantamiento máximo récord de todo el torneo con su legajo/s del participante/s correspondiente/s.
+#• Permitir al juez(usuario) una busqueda por legajo particular, recibiendo su informacion aislada
 
 #--------------------------------------------
 
