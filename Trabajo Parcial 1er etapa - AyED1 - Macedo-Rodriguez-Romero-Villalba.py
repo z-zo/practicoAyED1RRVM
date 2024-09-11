@@ -1,23 +1,23 @@
-# Enunciado TP1, Algoritmos y Estructura de Datos
+# Enunciado TP1, Algoritmos y Estructura de Datos turno Noche Grupo 1
 # [Macedo, Rodriguez, Romero Quirino y Villalba]
 
 # OBJETIVO DEL PROYECTO: 
-#Nuestro objetivo es desarrollar un programa que se pueda utilizar en una competencia deportiva de levantamiento de pesas que lo puedan usar personas reales.
+#Nuestro objetivo es desarrollar un programa que se pueda utilizar en una competencia deportiva de levantamiento de pesas que lo puedan usar [personas reales].
 
 #ALCANCE: 
 
-#Desarrolle de un programa que simula una competencia de levantamiento, con tres intentos de levantamiento olímpico de la técnica de Peso Muerto por cada atleta.
+#Desarrolle un programa que simule una competencia de levantamiento, con tres intentos de levantamiento olímpico de la técnica de Peso Muerto por cada atleta.
 #El programa permite el ingreso del número de legajo de los atletas entre 1000 a 9999 y también permite el registro de la edad de los atletas que son validados como mayores a 18 años para poder participar. 
 #La condición de fin es ingresar la variable de finalización (-1).
 #Se generarán tres intentos aleatorios de levantamientos en Kg para cada atleta, si el promedio entre esos 3 levantamientos supera un objetivo llamado objetivo Clasificación con un valor definido de 120 kilogramos; el atleta clasifica a los futuros panamericanos en Santiago de Chile 2025.
-#Se desarrollara una funcion de busqueda en un modulo que sera llamado desde el codigo principal.
+#Se desarrollara una función de busqueda en un modulo que será llamado desde el código principal.
 
-#A continuacion el programa solicitara el ingreso por medio de usuario y contraseña de un juez para acceder a la informacion de:
+#A continuacion el programa solicitará el ingreso por medio de usuario y contraseña de un juez para acceder a la información de:
 
 #• Una lista con [legajos], [edades] y una matriz con los tres levantamientos relacionados al legajo.
 #• Porcentaje de atletas clasificados a los panamericanos superando los 120kgs promedio entre los tres intentos.
 #• El intento de levantamiento máximo récord de todo el torneo con su legajo/s del participante/s correspondiente/s.
-#• Permitir al juez(usuario) una busqueda por legajo particular, recibiendo su informacion aislada
+#• Permitir al juez(usuario) una búsqueda por legajo particular, recibiendo su información aislada
 
 #--------------------------------------------
 
@@ -26,6 +26,8 @@
 import random
 import MdeBusqueda
 objetivoClasificacion = 120
+
+ingresoInt = lambda mensaje: int(input(mensaje))
 
 #función I - determinar rango de validación
 def validarRango (inf, sup, mensaje, mensajeError, corte):
