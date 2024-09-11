@@ -1,4 +1,6 @@
-#Función busqueda en lista para identificar si hay duplicados
+
+#Función IV - busqueda en lista para identificar si hay duplicados
+
 def busqueda(lista, valorBuscado):
     pos = -1
     i = 0
