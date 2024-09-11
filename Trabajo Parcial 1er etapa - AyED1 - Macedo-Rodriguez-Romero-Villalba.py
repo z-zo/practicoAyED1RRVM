@@ -27,11 +27,13 @@ import random
 import MdeBusqueda
 objetivoClasificacion = 120
 
+ingresoInt = lambda mensaje: int(input(mensaje))
+
 #función I - determinar rango de validación
 def validarRango (inf, sup, mensaje, mensajeError, corte):
-    legajo = int(input(mensaje))
+    legajo = ingresoInt(mensaje)
     while (legajo<inf or legajo>sup) and legajo !=corte:
-        legajo = int(input(mensajeError))
+        legajo = ingresoInt(mensajeError)
     return legajo
 
 #función II - Validación ingresos de variables para legajo y edades de atletas con rangos
@@ -53,7 +55,7 @@ def ingresarLegajos(legajos,edades):
 #Función III - Carga de levantamientos de atletas al azar (3 intentos)
 def cargaLevantamiento (liLeg, liLev):
     for i in range(len(liLeg)):
-            intentos = [random.randint(80, 200) for _ in range(3)]
+            intentos = [random.randint(80, 200) for _ in range(3)]#requerimiento comprension 
             liLev.append(intentos)
 
 #Función IV - Tabla de clasificación
