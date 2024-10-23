@@ -4,7 +4,7 @@ import csv
 import random
 from faker import Faker
 from random import randint
-import MdeBusqueda
+
 
 fk = Faker()
 
@@ -58,8 +58,7 @@ def validarRango(inf, sup, mensaje, mensajeError, corte):
 def ingresarLegajos(legajos, edades):
     legajo = validarRango(1000, 9999, "Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024, por favor, Ingrese legajo (entre 1000 y 9999) o para finalizar presione -1: ", "Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ", -1)
     while legajo != -1:
-        pos = MdeBusqueda.busqueda(legajos, legajo)
-        if pos == -1:
+        if legajo in legajos:
             try:
                 edad = int(input("Ingrese la edad del atleta (debe ser igual o mayor a 18 años): "))
                 if edad < 18 or edad > 100:
