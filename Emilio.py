@@ -1,8 +1,8 @@
-# Rama Emilio versión 2.1.1
+# Rama Emilio versión 2.1.2
 
 import csv
 import random
-#from faker import Faker instalar la libreria de faker en python
+from faker import Faker
 from random import randint
 import MdeBusqueda
 
