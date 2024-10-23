@@ -1,39 +1,23 @@
-# Enunciado TP1
-# [Macedo,Rodriguez, Romero Quirino y Villalba] 
-# SISTEMA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024 (c) VERSION 2.0 
-
-#Alcance general: Aumnetar las variables de ingresos del programa de levantamiento UADE 2023 VERSIÓN 1
-
-#Objetivos:
-#• Poder ingresar nombres de atletas como cadena de carácteres al programa para lograr una experiencia de usuario mas personalizado
-#• Manejar multiples listas y matrices, junto con la funicon lambda, slicing.
-#• pedir una consulta de levantamiento minimo para los juezes por el nombre
-
-# Desarrolle un programa que simule una competencia de levantamiento,
-# con tres intentos de levantamiento olímpico de clean & jerk por cada atleta.
-# El programa debe permitir el ingreso del número de legajo entre 1000 a 9999 y
-# el registro de la edad mayor a 18 años y menor de 100 que deben ser validados 
-# para poder participar, como también su nombre+espacio+apellido.
-# la condición de fin del programa es ingresar la variable de finalización (-1).
-
-# Se deben generar tres intentos de levantamientos en Kg aleatorios para cada atleta,
-# Si el promedio entre esos 3 levantamientos supera un objetivo llamado objetivo Clasificación
-# con un valor definido de 120 kilogramos, el atleta será clasificado en el torneo para los panamericanos.
-# Al finalizar con -1 este programa olímpico informará:
-
-#   1 • Tabla con legajos, edades, nombres+apellido e intentos con datos al azar (random) del 1er levantamiento, 2do levantamiento, 3er levantamiento y el promedio entre las tres.
-#   2 • Porcentaje de atletas clasificados superando los 120 kg promedio para el ir a los panamericanos.
-#   3 • Crear una función en un módulo propio (programación modular) ligado al código principal
-#   4 • Permitir ingresos de legajos con una función lambda
-#   5 • Lograr incluir en la función cargaLevantamiento listas por comprensión y uso de slicing
-#   6 • Manejo de Datos estructurados (Listas y matrices).
-#   6 • EL intento de levantamiento máximo record de todo el torneo con su legajo de participante correspondiente.
-#   7 • Permitir al juez/usuario la consulta de un nombe+apellido (cadena de carácteres) informando su intento de peso mínimo de levantamiento.
-
-#--------------------------------------------
+# Rama Guillermo version 2.2l
 
 
-#Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024 ->
+"""Parte 2:
+Pensar en estadisticas se pueden informar a partir de los datos que trabaja el programa
+
+---02-10--- En el ingreso de legajo manejar con (15/22 de P1 - Clase 9) usar excepciones en una función de validar legajos {while true? try? exception}(para que no pongan una letra en el nro de legajo). Modularizar.
+
+Validar los "no repetidos" usando while item in lista
+
+usar diccionarios para relacionar legajos y pesos (???)
+
+Usar la fila "0" para el nombre de las columnas !!OJO!! a partir de ese momento hay que saltear SIEMPRE la primer fila en los readline()
+
+Reemplazar los ingresos con una automatizacion (se ingresa un numero de competidores, se genera legajo (validado), edad (random), y los tres tiros)
+
+se puede hacer una funcion que cree un diccionario a partir de las listas de legajos y nombres completos y edad como un diccionario.
+
+# --------------------------------------------"""
+
 
 from random import randint
 from MdeBusqueda import busqueda
@@ -42,7 +26,7 @@ objetivoClasificacion = 120
 
 ingresoInt = lambda mensaje: int(input(mensaje))
 
-#función I - determinar rango de validación
+#función I - determinar rango de validación 
 def validarRango (inf, sup, mensaje, mensajeError, corte):
     legajo = ingresoInt(mensaje)
     while (legajo<inf or legajo>sup) and legajo !=corte:
