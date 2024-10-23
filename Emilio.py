@@ -178,7 +178,7 @@ def main():
     print("Para dar comentarios en la mejora del programa por parte de Entrenadores, Jueces u organizadores del programa,")
     print("no dude en escribirnos en comiteolimpico@uade.edu.ar")
     print("--------------------------------------------------------------------------------")
-    print("SISTEMA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024 (c) VERSION 1.0")
+    print("SISTEMA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024 (c) VERSION 2.1.2")
     print("--------------------------------------------------------------------------------")
     print("Todos los derechos reservados - Escuela del Sur")
 
