@@ -10,9 +10,11 @@ def generarleg(legajos):
         try:
             legajo = random.randint(1000, 9999)
             if legajo not in legajos:
-                return legajo
+                break
         except ValueError:
-                continue
+            print(f"Error: legajo existente")
+            continue
+    return legajo
 
 # Función para crear un diccionario con los datos de los atletas
 def crearDicAtletas(n):
@@ -21,7 +23,7 @@ def crearDicAtletas(n):
         legajo = generarleg(atletas.keys())
         edad = random.randint(18, 65)
         nombre_completo = fk.name()  # Integrar faker
-        intentos = [random.randint(50, 200) for i in range(3)]  # Levantamientos entre 50kg y 250kg
+        intentos = [random.randint(50, 200) for i in range(3)]  # Levantamientos entre 50kg y 200kg
         
         atletas[legajo] = {
             "nombreCompleto": nombre_completo,
@@ -29,6 +31,7 @@ def crearDicAtletas(n):
             "intentos": intentos,
             "promedio": round(sum(intentos) / 3, 2)
         }
-    return print(atletas)
+    return atletas
 
-crearDicAtletas(3)
+dic = crearDicAtletas(5)
+
