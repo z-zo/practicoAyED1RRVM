@@ -7,7 +7,7 @@
 #Objetivos:
 #• Poder ingresar nombres de atletas como cadena de carácteres al programa para lograr una experiencia de usuario mas personalizado
 #• Manejar multiples listas y matrices, junto con la funicon lambda, slicing.
-#• pedir una consulta de levantamiento minimo para los juezes por el nombre
+#• Pedir una consulta de levantamiento minimo para los juezes por el nombre
 
 # Desarrolle un programa que simule una competencia de levantamiento,
 # con tres intentos de levantamiento olímpico de clean & jerk por cada atleta.
