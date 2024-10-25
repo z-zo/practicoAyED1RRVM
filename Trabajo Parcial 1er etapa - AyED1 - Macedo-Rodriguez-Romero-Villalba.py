@@ -2,7 +2,7 @@
 # [Macedo,Rodriguez, Romero Quirino y Villalba] 
 # SISTEMA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024 (c) VERSION 2.0 
 
-#Alcance general: Aumnetar las variables de ingresos del programa de levantamiento UADE 2023 VERSIÓN 1
+#Alcance general: Aumentar las variables de ingresos del programa de levantamiento UADE 2023 VERSIÓN 1
 
 #Objetivos:
 #• Poder ingresar nombres de atletas como cadena de carácteres al programa para lograr una experiencia de usuario mas personalizado
