@@ -233,10 +233,12 @@ def main():
             n = int(input("Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024\nIngrese la cantidad de atletas a simular,\nPara finalizar; presione 0 o cualquier número negativo: "))
             if n <= 0:
                 print("Usted ha finalizado el programa, Gracias por participar en el torneo Levantamiento UADE 2024")
-                return
             break
+        except TypeError:
+            print("Error: El ingreso no puede contener letras ni carácteres especiales.")
         except ValueError:
             print("Por favor, ingrese un número válido.")
+    return
     
     atletas = gen.crearDicAtletas(n)
     guardarEnCSV(atletas)  # Guardamos los datos en un CSV
