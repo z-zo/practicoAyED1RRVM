@@ -16,15 +16,17 @@ def guardarEnCSV(atletas):
     archivocsv = "atletas.csv"
     
     # Crear o abrir el archivo CSV para escritura
-    with open(archivocsv, mode='w', newline='') as file:
-        writer = csv.writer(file)
+    with open(archivocsv, mode='w', newline='') as f:#f es el apodo de archivocsv
+        writer = csv.writer(f)
         # Escribir el encabezado
         writer.writerow(["Legajo", "Nombre Completo", "Edad", "Intento 1 (kg)", "Intento 2 (kg)", "Intento 3 (kg)", "Promedio (kg)"])
         
         # Escribir los datos de los atletas
         for legajo, datos in atletas.items():
             writer.writerow([legajo, datos["nombreCompleto"], datos["edad"]] + datos["intentos"] + [datos["promedio"]])
-    
+        
+        f.close() #se puede cambiar todo de f a file para cerrar luego incluso como <archivocsv.close> el mé
+        
     print(f"Datos de los atletas guardados en '{archivocsv}'.")
 
 # Función que utilizamos para leer datos en nuestro archivo CSV
@@ -34,8 +36,8 @@ def leerDesdeCSV(archivocsv):
         print(f"El archivo '{archivocsv}' no existe.")
         return atletas
     
-    with open(archivocsv, mode='r') as file:
-        reader = csv.DictReader(file)
+    with open(archivocsv, mode='r') as f:
+        reader = csv.DictReader(f)
         for row in reader:
             legajo = row["Legajo"]
             nombreCompleto = row["Nombre Completo"]
@@ -48,6 +50,7 @@ def leerDesdeCSV(archivocsv):
                 "intentos": intentos,
                 "promedio": promedio
             }
+    f.close()
     return atletas
 
 # Función donde mostramos la lista de atletas en formato de tabla desde el proyecto de fundamentos anterior pero ahora con un diccionario
@@ -100,12 +103,11 @@ def PodiumRecord(atletas):
     # Ordenar a los atletas por el levantamiento máximo en un solo intento
     atletasOrdenados = sorted(
         atletas.items(),
-        key=lambda x: max(x[1]["intentos"]),
-        reverse=True
+        key=lambda x: max(x[1]["intentos"]), #ordenando la lista de mayor a menor, comienza en 1 por que el 0 es el titulo de la tabla
+        reverse=True 
     )
-
-    # Seleccionar a los tres primeros para el podium
-    podium = atletasOrdenados[:3]
+    #SLICING Seleccionar a los tres primeros para el podium
+    podium = atletasOrdenados[:3] #Corta posición 0, 1 y 2
 
     # Mostrar el podium basado en el levantamiento máximo
     print("-------------------------------------------------------------------------------------")
@@ -203,9 +205,8 @@ def consultarAtleta(atletas):
                     validado = True
                     break
         
-        if validado:
-            legajoConsulta = input("Juez, ingrese el legajo de 4 dígitos del atleta que desea consultar: ").strip()
-            legajoConsulta = str(legajoConsulta)
+        if validado: #str para hacer match entre llave del diccionario y el ingreso del juez en valor entero 4 dígitos
+            legajoConsulta = str(input("Juez, ingrese el legajo de 4 dígitos del atleta que desea consultar: ").strip())
             atleta = atletas.get(legajoConsulta)
             
             if atleta:
@@ -226,6 +227,7 @@ def consultarAtleta(atletas):
 
 #programa principal
 def main():
+    
     while True:
         try:
             n = int(input("Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024\nIngrese la cantidad de atletas a simular,\nPara finalizar; presione 0 o cualquier número negativo: "))

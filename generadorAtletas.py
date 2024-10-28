@@ -14,19 +14,26 @@ Documentación multilínea sobre programación modular generadorAtletas
         }
     print("Diccionario de atletas generado:", atletas)
 """
-from faker import Faker #libreria conectada por nino de python3 pip -m con nombres al azar
+from faker import Faker #libreria conectada de python3 pip -m con nombres al azar - Nino
 fk = Faker()
 
-# Función para generar un número de legajo sin duplicados
+# Función para generar un número de legajo sin duplicados ni ingresos de textos o cadenas de carácteres - Nino
 def generarleg(legajos):
     while True:
-        legajo = random.randint(1000, 9999)
-        if legajo not in legajos: #busqueda de fundamentos cambiada a busqueda not in para evitar duplicados
-            return legajo
+        try:
+            legajo = random.randint(1000, 9999)
+            if legajo not in legajos:
+                break
+        except TypeError:
+            print("Error: El legajo no puede contener letras ni carácteres especiales.")
+        except ValueError:
+            print(f"Error: legajo existente")
+            continue
+    return legajo
 
 # Función para crear un diccionario con los datos de los atletas
 def crearDicAtletas(n):
-    atletas = {}
+    atletas = {} #diccionario
     for _ in range(n):
         legajo = generarleg(atletas.keys())
         edad = random.randint(18, 25)
