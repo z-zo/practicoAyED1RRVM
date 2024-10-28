@@ -20,9 +20,29 @@ se puede hacer una funcion que cree un diccionario a partir de las listas de leg
 
 
 from random import randint
-from MdeBusqueda import busqueda
 
 objetivoClasificacion = 120
+
+def login():
+    print("Sistema de Login para Jueces")
+    intentos = 3  # Número de intentos permitidos
+
+    credenciales = {}
+    with open("C:\\Users\\IanLu\\Desktop\\practicoAyED1RRVM\\credenciales.txt", 'rt') as file:
+        for line in file:
+            usuario, contrasena = line.strip().split(':')
+            credenciales[usuario] = contrasena
+
+    for i in range(intentos):
+        usuario = input("Ingrese su usuario: ")
+        contrasena = input("Ingrese su contraseña: ")
+        if usuario in credenciales and credenciales[usuario] == contrasena:
+            print("Login exitoso! Bienvenido, Juez.")
+            return True
+        else:
+            print("Usuario o contraseña incorrectos. Intente nuevamente.")
+    print("Demasiados intentos fallidos. Acceso denegado.")
+    return False
 
 ingresoInt = lambda mensaje: int(input(mensaje))
 
@@ -33,24 +53,39 @@ def validarRango (inf, sup, mensaje, mensajeError, corte):
         legajo = ingresoInt(mensajeError)
     return legajo
 
-#función II - Validación ingresos de variables para legajo y edades de atletas con rangos
-def ingresarAtleta(legajos,edades, nombres):
-    legajo = validarRango(1000,9999,"Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024, por favor, Ingrese legajo (entre 1000 y 9999): para finalizar presione -1: ","Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ",-1)
-    while legajo !=-1:
-        pos= busqueda (legajos, legajo)
-        if pos==-1:
+# Función II - Validación de ingreso de variables para legajo y edades de atletas con rangos
+def ingresarAtleta(legajos, edades, nombres):
+    legajo = validarRango(
+        1000, 9999,
+        "Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024, por favor, Ingrese legajo (entre 1000 y 9999): para finalizar presione -1: ",
+        "Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ", 
+        -1
+    )
+
+    while legajo != -1:
+        if legajo not in legajos: 
             edad = int(input("Ingrese la edad del atleta (debe ser igual o mayor a 18 años): "))
-            nombre = input("Ingrese el nombe+apellido del atleta: ").lower()
-            if edad <18 or edad>100 or not nombre.isalpha():
+            nombre = input("Ingrese el nombre+apellido del atleta: ").lower()
+            
+            # Validación de edad y nombre
+            if edad < 18 or edad > 100 or not nombre.replace(" ", "").isalpha():
                 print("Error, vuelva a ingresar los datos del atleta correctamente: ")
-    
             else:
+                # Agregar datos a las listas
                 legajos.append(legajo)
                 edades.append(edad)
                 nombres.append(nombre)
         else:
             print("Error, legajo duplicado")
-        legajo = validarRango(1000,10000,"Ingrese legajo (entre 1000 y 9999): ","Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ",-1)
+
+        # Solicitar un nuevo legajo o -1 para finalizar
+        legajo = validarRango(
+            1000, 9999,
+            "Ingrese legajo (entre 1000 y 9999): ",
+            "Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ",
+            -1
+        )
+
     
 #Función III - Carga de levantamientos de atletas al azar (3 intentos)
 def cargaLevantamiento (liLeg, liLev):
@@ -90,54 +125,84 @@ def calcularPorcentajeClasificados(legajos, liLev):
 
     return porcentajeClasificados
 
+def ingresarAtleta(legajos, edades, nombres):
+    while True:
+        try:
+            legajo = validarRango(1000, 9999, "Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024, por favor, Ingrese legajo (entre 1000 y 9999): para finalizar presione -1: ", "Error, Re-ingrese el número de legajo (entre 1000 y 9999) o -1 para finalizar: ", -1)
+        
+        except ValueError:
+            print("Error: el legajo debe ser un número. Intente de nuevo.")
+            continue
+
+        if legajo == -1:
+            break 
+
+        if legajo not in legajos: 
+            try:
+                edad = int(input("Ingrese la edad del atleta (debe ser igual o mayor a 18 años): "))
+                if edad < 18 or edad > 100:
+                    raise ValueError("La edad debe estar entre 18 y 100 años.")
+            except ValueError as e:
+                print("Error, edad incorrecta, ingrese solo numeros")
+                continue  
+            
+            try:
+                nombre = input("Ingrese el nombre+apellido del atleta: ").lower()
+                if not nombre.replace(" ", "").isalpha():
+                    raise ValueError("El nombre debe contener solo letras.")
+            except ValueError as e:
+                print("Error, ingreso del nombre incorrecto:", e)
+                continue 
+
+            
+            legajos.append(legajo)
+            edades.append(edad)
+            nombres.append(nombre)
+            print("Atleta ingresado correctamente.")
+        else:
+            print("Error: legajo duplicado.")
+
+
 # Función VII mostrar levantamientoPesoMaximo
 def levantamientoRecord(legajos, liLev):
     record = 0
     legRec = 0
 
     for i in range(len(legajos)):
-        # Comprobar si el levantamiento de la primera lista es el récord
-        if liLev[i][0] > record:
-            record = liLev[i][0]
-            legRec = legajos[i]
+        # Encontrar el máximo levantamiento de los intentos del atleta actual usando max() en liLev[i]
+        maxLevantamiento = max(liLev[i])
 
-        # Comprobar si el levantamiento de la segunda lista es el récord
-        if liLev[i][1] > record:
-            record = liLev[i][1]
+        # Actualizar el récord y el legajo si se encuentra un nuevo récord
+        if maxLevantamiento > record:
+            record = maxLevantamiento
             legRec = legajos[i]
-
-        # Comprobar si el levantamiento de la tercera lista es el récord
-        if liLev[i][2] > record:
-            record = liLev[i][2]
-            legRec = legajos[i]
+    
     print("---------------------------------------------------------------------------------------------------------")
-    return print("El levantamiento record fue del competidor con el legajo", legRec, ", con un peso de ", record,"Kg")
+    return print("El levantamiento récord fue del competidor con el legajo", legRec, ", con un peso de", record, "Kg")
+
 
 #función VIII - Consulta para jueces sobre el un legajo y su Peso Mínimo
-def encontrarMinimo(liLev, nombres, nombreBuscado):
-    minimo = 201  # Usamos un valor inicial alto como 201, que no se confunda con levantamientos reales
-    encontrado = 0  # Variable para indicar si se encontró el nombre buscado (0 no encontrado, 1 encontrado)
+def encontrarMinimo(liLev, legajos, legajoBuscado):
+    minimo = 201  # Valor inicial alto para no confundir con levantamientos reales
+    encontrado = False  # Variable para indicar si se encontró el legajo buscado
 
-    if nombreBuscado in nombres:
-            i = nombres.index(nombreBuscado)
-
-            lev1 = liLev[i][0]
-            lev2 = liLev[i][1]
-            lev3 = liLev[i][2]
-
-            # Encontrar el mínimo entre los 3 levantamientos
-            if lev1 < lev2 and lev1 < lev3:
-                minActual = lev1
-            elif lev2 < lev3:
-                minActual = lev2
-            else:
-                minActual = lev3
+    for i in range(len(legajos)):
+        if legajos[i] == legajoBuscado:
+            # Accedemos a los tres intentos del atleta
+            intentos = liLev[i]
+            minActual = min(intentos)  # Mínimo entre los tres intentos
 
             # Actualizar el mínimo global si es necesario
             if minActual < minimo:
                 minimo = minActual
 
-            encontrado = 1  # Indicamos que se encontró el nombre buscado
+            encontrado = True  # Indicar que se encontró el legajo buscado
+
+    # Si el legajo no fue encontrado, retornamos 201; de lo contrario, el mínimo levantamiento
+    return minimo if encontrado else 201
+
+
+
 
     # Si no se encontró el nombre buscado, retornamos el valor inicial 201
     if encontrado == 0:
@@ -149,6 +214,9 @@ def encontrarMinimo(liLev, nombres, nombreBuscado):
 
 #Programa Principal
 def main():
+    if not login():
+        print("Acceso no autorizado. Cerrando el programa.")
+        return  # Salir del programa si el login falla
     legajos=[]
     edades=[]
     nombres=[]
