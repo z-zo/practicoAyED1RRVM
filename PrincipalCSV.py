@@ -60,37 +60,60 @@ def mostrarListaCompleta(atletas):
         print(f"{legajo:<6} | {nombreCompleto:<21} | {edad:<4} | {intentos[0]:<8} | {intentos[1]:<8} | {intentos[2]:<8} | {promedio:<8.2f}")
     print("--------------------------------------------------------------------------------------")
 
-# Función para mostrar el podio (los tres mejores atletas) ahora con medallas para ayudar al usuario a reconocer los tres mejores puestos
-def mostrarListaPodio(atletas):
+# Función para mostrar el podio (los tres mejores atletas) ahora con medallas
+def podiumPromedio(atletas):
     print("-------------------------------------------------------------------------------------")
-    print("\tPODIUM DE MEDALLAS DE ATLETAS CON MAS ALTO LEVANTAMIENTO UADE 2024")
+    print("\tPODIUM DE MEDALLAS DE ATLETAS PARA MÁXIMO LEVANTAMIENTO PROMEDIO")
     print("-------------------------------------------------------------------------------------")
     print("Legajo | Atleta                | Edad | Int 1(kg)| Int 2(kg)| Int 3(kg)| Promedio(kg)")
     print("-------------------------------------------------------------------------------------")
     
+    # Ordena atletas por promedio de levantamiento en orden descendente
     atletasOrdenados = sorted(atletas.items(), key=lambda x: x[1]['promedio'], reverse=True)
 
+    # Itera sobre los tres primeros atletas y asigna medallas en función del podio
     for index, (legajo, datos) in enumerate(atletasOrdenados[:3]):
         nombreCompleto = datos["nombreCompleto"]
         edad = datos["edad"]
         intentos = datos["intentos"]
         promedio = datos["promedio"]
 
+        # Define la medalla basada en la posición en el podio
         if index == 0:
-            medalla = "🟡"#oro
+            medalla = "🥇"  # Oro
         elif index == 1:
-            medalla = "⚪"#plata
-        else:
-            medalla = "🟠"#bronce
+            medalla = "🥈"  # Plata
+        elif index == 2:
+            medalla = "🥉"  # Bronce
 
-        entregaMedalla = [
-            f"{intento} {medalla}" if intento == max(intentos) else intento
-            for intento in intentos
-        ]
-
-        print(f"{legajo:<6} | {nombreCompleto:<21} | {edad:<4} | {entregaMedalla[0]:<8} | {entregaMedalla[1]:<8} | {entregaMedalla[2]:<8} | {promedio:<8.2f}")
+        # Formato de la salida con medalla y espaciado ajustado para la tabla
+        print(f"{legajo:<6} | {nombreCompleto:<19} {medalla} | {edad:<4} | {intentos[0]:<8} | {intentos[1]:<8} | {intentos[2]:<8} | {promedio:<8.2f}")
     
     print("--------------------------------------------------------------------------------------")
+
+def PodiumRecord(atletas):
+    # Ordenar a los atletas por el levantamiento máximo en un solo intento
+    atletasOrdenados = sorted(
+        atletas.items(),
+        key=lambda x: max(x[1]["intentos"]),
+        reverse=True
+    )
+
+    # Seleccionar a los tres primeros para el podium
+    podium = atletasOrdenados[:3]
+
+    # Mostrar el podium basado en el levantamiento máximo
+    print("-------------------------------------------------------------------------------------")
+    print("        PODIUM DE MEDALLAS DE ATLETAS CON RECORD DE LEVANTAMIENTO EN UN INTENTO ")
+    print("-------------------------------------------------------------------------------------")
+    print("Legajo | Atleta                | Edad | Int 1(kg)| Int 2(kg)| Int 3(kg)| Lev. Máximo(kg)")
+    print("-------------------------------------------------------------------------------------")
+    for i, (legajo, atleta) in enumerate(podium):
+        medalla = "🥇" if i == 0 else "🥈" if i == 1 else "🥉"
+        intentos = atleta["intentos"]
+        max_levantamiento = max(intentos)
+        print(f"{legajo:<7}| {atleta['nombreCompleto']:<20} {medalla} | {atleta['edad']:<5}| {intentos[0]:<10}| {intentos[1]:<10}| {intentos[2]:<10}| {max_levantamiento:<10}")
+    print("-------------------------------------------------------------------------------------")
 
 #función para encontrar mínimo levantado en todo el torneo
 def buscarMinimoLevantamiento(atletas):
@@ -125,7 +148,7 @@ def buscarMaximoLevantamiento(atletas):
     
     if atletaMaximo:
         legajo, datos = atletaMaximo
-        print("\nAtleta con el levantamiento máximo:")
+        print("\nAtleta con el levantamiento máximo: ")
         print(f"Legajo: {legajo}")
         print(f"Nombre: {datos['nombreCompleto']}")
         print(f"Edad: {datos['edad']}")
@@ -210,8 +233,8 @@ def main():
     
     atletas = gen.crearDicAtletas(n)
     guardarEnCSV(atletas)  # Guardamos los datos en un CSV
-    mostrarListaCompleta(atletas)
-    mostrarListaPodio(atletas)
+    podiumPromedio(atletas)
+    PodiumRecord(atletas)
     buscarMinimoLevantamiento(atletas)
     buscarMaximoLevantamiento(atletas)
     porcentajeClasificados(atletas)

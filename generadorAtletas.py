@@ -1,4 +1,19 @@
 import random
+"""
+Documentación multilínea sobre programación modular generadorAtletas
+
+•Según el número de atletas que el usario presione al incio del programa
+•Devuelve al archivo Principal un diccionario con claves y valores para cada uno de los atletas
+•También crea un archivo csv llammado atletas.csv
+        
+        atletas[str(legajo)] = {
+            "nombreCompleto": nombreCompleto,
+            "edad": edad,
+            "intentos": intentos,
+            "promedio": round(sum(intentos) / 3, 2)
+        }
+    print("Diccionario de atletas generado:", atletas)
+"""
 from faker import Faker #libreria conectada por nino de python3 pip -m con nombres al azar
 fk = Faker()
 
@@ -24,5 +39,5 @@ def crearDicAtletas(n):
             "intentos": intentos,
             "promedio": round(sum(intentos) / 3, 2)
         }
-    print("Diccionario de atletas generado:", atletas)
+    #print("Diccionario de atletas generado:", atletas)
     return atletas
