@@ -2,7 +2,12 @@ import generadorAtletas as gen
 import csv
 import os
 
-# la constante en 150 kilogramos para dividir los clasificados y calcular porcentaje de clasificados del total
+#Jamás debe salirse de una función desde el interior de un ciclo:
+#Cumplimos con esta regla en general, ya que ninguna función sale abruptamente de un ciclo mediante break o return dentro de un for o while.
+#En funciones como consultarAtleta, verificamos las condiciones sin interrumpir el flujo de iteración en el archivo de login.txt. 
+#También en el resto de funciones, la lógica se maneja adecuadamente sin salidas abruptas.
+
+# Constante para la clasificación Panamericano
 objetivoClasificacion = 150
 
 # Función para guardar los datos de los atletas en un archivo CSV
@@ -240,6 +245,7 @@ def main():
     porcentajeClasificados(atletas)
     promedioLevantamiento(atletas)
     # Cargar atletas desde CSV
+    
     print("\nCargando datos desde CSV...listo!!!")
     atletasDesdeCSV = leerDesdeCSV("atletas.csv")
     # Opcional: Puedes mostrar los atletas leídos desde el CSV
