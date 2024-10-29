@@ -1,6 +1,11 @@
-Legajo,Nombre Completo,Edad,Intento 1 (kg),Intento 2 (kg),Intento 3 (kg),Promedio (kg)
-7713,Kevin Ramos,20,231,60,89,126.67
-7313,Anthony White,19,161,159,237,185.67
-8806,Joseph Reyes,19,166,64,224,151.33
-3011,Aaron Cruz,19,105,130,118,117.67
-6516,Anthony Hernandez,25,90,114,207,137.0
+Legajo,Nombre Completo,Edad,Intento 1 (kg),Intento 2 (kg),Intento 3 (kg),Promedio (kg),Variacion de progreso
+6989,Adam Gonzalez,20,188,230,214,210.67,42
+2234,James Smith,21,150,237,129,172.0,108
+7996,Stacy Roach,24,206,130,187,174.33,76
+6648,Katherine Richardson,24,61,129,62,84.0,68
+6140,William Baker,22,205,132,245,194.0,113
+9874,Samantha Willis,22,247,78,169,164.67,169
+3813,Samantha Johnson,24,185,193,55,144.33,138
+1678,Gregory Pratt,25,206,164,170,180.0,42
+9262,Matthew Baldwin,24,110,172,210,164.0,100
+6006,Amy Wyatt,24,161,186,214,187.0,53

@@ -31,6 +31,22 @@ def generarleg(legajos):
             continue
     return legajo
 
+def calcularVariacionRecursiva(intentos, maxIntento=None, minIntento=None, i=0):
+    # Condición base: si hemos recorrido todos los intentos, devolvemos la diferencia
+    if i == len(intentos):
+        return maxIntento - minIntento
+    
+    # Inicializamos max y min si es la primera llamada recursiva
+    if maxIntento is None or minIntento is None:
+        maxIntento = minIntento = intentos[i]
+    
+    # Actualizamos max y min de acuerdo al intento actual
+    maxIntento = max(maxIntento, intentos[i])
+    minIntento = min(minIntento, intentos[i])
+    
+    # Llamada recursiva al siguiente intento
+    return calcularVariacionRecursiva(intentos, maxIntento, minIntento, i + 1)
+
 # Función para crear un diccionario con los datos de los atletas
 def crearDicAtletas(n):
     atletas = {} #diccionario
@@ -44,7 +60,10 @@ def crearDicAtletas(n):
             "nombreCompleto": nombreCompleto,
             "edad": edad,
             "intentos": intentos,
-            "promedio": round(sum(intentos) / 3, 2)
+            "promedio": round(sum(intentos) / 3, 2), 
+            "variacion": calcularVariacionRecursiva(intentos)
         }
     #print("Diccionario de atletas generado:", atletas)
     return atletas
+
+

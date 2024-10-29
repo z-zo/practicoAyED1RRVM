@@ -1,11 +1,9 @@
-import generadorAtletas as gen
 import csv
+import generadorAtletas as gen
+import random
 import os
 
-#Jamás debe salirse de una función desde el interior de un ciclo:
-#Cumplimos con esta regla en general, ya que ninguna función sale abruptamente de un ciclo mediante break o return dentro de un for o while.
-#En funciones como consultarAtleta, verificamos las condiciones sin interrumpir el flujo de iteración en el archivo de login.txt. 
-#También en el resto de funciones, la lógica se maneja adecuadamente sin salidas abruptas.
+pesoClasificacion = 150
 
 # Constante para la clasificación Panamericano
 objetivoClasificacion = 150
@@ -19,15 +17,15 @@ def guardarEnCSV(atletas):
     with open(archivocsv, mode='w', newline='') as f:#f es el apodo de archivocsv
         writer = csv.writer(f)
         # Escribir el encabezado
-        writer.writerow(["Legajo", "Nombre Completo", "Edad", "Intento 1 (kg)", "Intento 2 (kg)", "Intento 3 (kg)", "Promedio (kg)"])
+        writer.writerow(["Legajo", "Nombre Completo", "Edad", "Intento 1 (kg)", "Intento 2 (kg)", "Intento 3 (kg)", "Promedio (kg)", "Variacion de progreso"])
         
         # Escribir los datos de los atletas
         for legajo, datos in atletas.items():
-            writer.writerow([legajo, datos["nombreCompleto"], datos["edad"]] + datos["intentos"] + [datos["promedio"]])
+            writer.writerow([legajo, datos["nombreCompleto"], datos["edad"]] + datos["intentos"] + [datos["promedio"]] + [datos["variacion"]])
         
         f.close() #se puede cambiar todo de f a file para cerrar luego incluso como <archivocsv.close> el mé
         
-    print(f"Datos de los atletas guardados en '{archivocsv}'.")
+    print(f"Datos de los atletas guardándose en '{archivocsv}'....Confirmado Jueces!\nListo, está guardada la planilla de atletas en el '{archivocsv}' al 100%")
 
 # Función que utilizamos para leer datos en nuestro archivo CSV
 def leerDesdeCSV(archivocsv):
@@ -191,11 +189,11 @@ def promedioLevantamiento(atletas):
 
 # Función de consulta pero ahora con un login y con clave en un documento llamado login.txt
 def consultarAtleta(atletas):
-    consulta = input("¿Desea consultar el legajo de un atleta? (si/no): ").strip().lower()
+    consulta = input("¿Estimado Juez(a), Desea consultar con legajo entre 1000 y 9999)\nEl perfil completo de levantamiento de un(a) atleta de la competencia? (si/no): ").strip().lower()
     
     if consulta == "si":
-        usuario = input("Por favor, Juez, ingrese su nombre de usuario para consulta por atleta con legajo específico: ")
-        clave = input("Por favor, ingrese su clave: ")
+        usuario = input("Por favor, Juez(a), ingrese su nombre de usuario(a) en la plataforma: ")
+        clave = input("Por favor, ingrese la clave: ")
         
         with open("login.txt", "r") as file:
             validado = False
@@ -225,6 +223,36 @@ def consultarAtleta(atletas):
     else:
         print("Por favor, ingrese 'si' o 'no'.")
 
+
+
+def exportarInforme(atletas):
+    exportar = input("Desea exportar el informe del torneo? (si/no) ")
+    if exportar.lower() == "si":
+        informe = "informe.csv"
+        
+        # Crear o abrir el archivo CSV para escritura
+        with open(informe, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            
+            # Escribir el encabezado
+            writer.writerow(["Legajo", "Nombre Completo", "Edad", "Intento 1 (kg)", "Intento 2 (kg)", "Intento 3 (kg)", "Promedio (kg)", "Variacion de Progreso"])
+            
+            # Escribir los datos de los atletas
+            for legajo, datos in atletas.items():
+                writer.writerow([
+                    legajo, 
+                    datos["nombreCompleto"], 
+                    datos["edad"], 
+                    datos["intentos"],        # Expande la lista de intentos
+                    datos["promedio"],         # Promedio como valor único
+                    datos["variacion"]         # Variación como valor único
+                ])
+        
+        print(f"Informe exportado como '{informe}'.")
+    else:
+        print("Consulta finalizada.")
+
+
 #programa principal
 def main():
     
@@ -234,7 +262,7 @@ def main():
             if n <= 0:
                 print("Usted ha finalizado el programa, Gracias por participar en el torneo Levantamiento UADE 2024")
                 return
-            break
+            break    
         except ValueError:
             print("Por favor, ingrese un número válido.")
     
@@ -254,6 +282,7 @@ def main():
     mostrarListaCompleta(atletasDesdeCSV)
     # Consultar información de un atleta
     consultarAtleta(atletasDesdeCSV)
+    exportarInforme(atletas)
 
     print("--------------------------------------------------------------------------------------------------------------")
     print("Gracias por usar nuestra mas reciente versión del sistema de Puntos del comite olímpico de la UADE")
