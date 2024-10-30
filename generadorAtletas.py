@@ -1,4 +1,5 @@
 import random
+from faker import Faker #libreria conectada de python3 pip -m con nombres al azar - Nino
 """
 Documentación multilínea sobre programación modular generadorAtletas
 
@@ -14,18 +15,16 @@ Documentación multilínea sobre programación modular generadorAtletas
         }
     print("Diccionario de atletas generado:", atletas)
 """
-from faker import Faker #libreria conectada de python3 pip -m con nombres al azar - Nino
+
 fk = Faker()
 
-# Función para generar un número de legajo sin duplicados ni ingresos de textos o cadenas de carácteres - Nino
+# Función Ia: para generar un número de legajo sin duplicados ni ingresos de textos o cadenas de carácteres - Nino
 def generarleg(legajos):
     while True:
         try:
             legajo = random.randint(1000, 9999)
             if legajo not in legajos:
                 break
-        except TypeError:
-            print("Error: El legajo no puede contener letras ni carácteres especiales.")
         except ValueError:
             print(f"Error: legajo existente")
             continue
@@ -36,7 +35,7 @@ def calcularVariacionRecursiva(intentos, maxIntento=None, minIntento=None, i=0):
     if i == len(intentos):
         return maxIntento - minIntento
     
-    # Inicializamos max y min si es la primera llamada recursiva
+    # Inicializamos max y min si es la primera llamada recursiva y asegurar que empiezan en 0
     if maxIntento is None or minIntento is None:
         maxIntento = minIntento = intentos[i]
     
@@ -47,14 +46,14 @@ def calcularVariacionRecursiva(intentos, maxIntento=None, minIntento=None, i=0):
     # Llamada recursiva al siguiente intento
     return calcularVariacionRecursiva(intentos, maxIntento, minIntento, i + 1)
 
-# Función para crear un diccionario con los datos de los atletas
+# Función IIa: para crear un diccionario con los datos de los atletas
 def crearDicAtletas(n):
     atletas = {} #diccionario
-    for _ in range(n):
+    for i in range(n):
         legajo = generarleg(atletas.keys())
         edad = random.randint(18, 25)
         nombreCompleto = fk.name()  # Genera nombres aleatorios
-        intentos = [random.randint(50, 250) for _ in range(3)]  # 3 Intentos de levantamiento en kg / lista por comprensión
+        intentos = [random.randint(50, 250) for i in range(3)]  # 3 Intentos de levantamiento en kg / lista por comprensión
         #creación diccionario clave:valor 
         atletas[str(legajo)] = {
             "nombreCompleto": nombreCompleto,
@@ -65,5 +64,6 @@ def crearDicAtletas(n):
         }
     #print("Diccionario de atletas generado:", atletas)
     return atletas
+
 
 
