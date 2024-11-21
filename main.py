@@ -1,72 +1,10 @@
-import csv
 import generadorAtletas as gen
-import random
 import os
-
-pesoClasificacion = 150
 
 # Constante para la clasificación Panamericano
 objetivoClasificacion = 150
 
-# Función para guardar los datos de los atletas en un archivo CSV
-def guardarEnCSV(atletas):
-    # Definir el nombre del archivo CSV
-    archivocsv = "atletas.csv"
-    
-    # Crear o abrir el archivo CSV para escritura
-    with open(archivocsv, mode='w', newline='') as f:#f es el apodo de archivocsv
-        writer = csv.writer(f)
-        # Escribir el encabezado
-        writer.writerow(["Legajo", "Nombre Completo", "Edad", "Intento 1 (kg)", "Intento 2 (kg)", "Intento 3 (kg)", "Promedio (kg)", "Variacion de progreso"])
-        
-        # Escribir los datos de los atletas
-        for legajo, datos in atletas.items():
-            writer.writerow([legajo, datos["nombreCompleto"], datos["edad"]] + datos["intentos"] + [datos["promedio"]] + [datos["variacion"]])
-        
-        f.close() #se puede cambiar todo de f a file para cerrar luego incluso como <archivocsv.close> el mé
-        
-    print(f"Datos de los atletas guardándose en '{archivocsv}'....Confirmado Jueces!\nListo, está guardada la planilla de atletas en el '{archivocsv}' al 100%")
-
-# Función que utilizamos para leer datos en nuestro archivo CSV
-def leerDesdeCSV(archivocsv):
-    atletas = {}
-    if not os.path.exists(archivocsv):
-        print(f"El archivo '{archivocsv}' no existe.")
-        return atletas
-    
-    with open(archivocsv, mode='r') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            legajo = row["Legajo"]
-            nombreCompleto = row["Nombre Completo"]
-            edad = int(row["Edad"])
-            intentos = [int(row["Intento 1 (kg)"]), int(row["Intento 2 (kg)"]), int(row["Intento 3 (kg)"])]
-            promedio = round(sum(intentos) / len(intentos), 2)
-            atletas[legajo] = {
-                "nombreCompleto": nombreCompleto,
-                "edad": edad,
-                "intentos": intentos,
-                "promedio": promedio
-            }
-    f.close()
-    return atletas
-
-# Función donde mostramos la lista de atletas en formato de tabla desde el proyecto de fundamentos anterior pero ahora con un diccionario
-def mostrarListaCompleta(atletas):
-    print("-------------------------------------------------------------------------------------")
-    print("\tTABLA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024")
-    print("-------------------------------------------------------------------------------------")
-    print("Legajo | Atleta                | Edad | Int 1(kg)| Int 2(kg)| Int 3(kg)| Promedio(kg)")
-    print("-------------------------------------------------------------------------------------")
-    for legajo, datos in atletas.items():
-        nombreCompleto = datos["nombreCompleto"]
-        edad = datos["edad"]
-        intentos = datos["intentos"]
-        promedio = datos["promedio"]
-        print(f"{legajo:<6} | {nombreCompleto:<21} | {edad:<4} | {intentos[0]:<8} | {intentos[1]:<8} | {intentos[2]:<8} | {promedio:<8.2f}")
-    print("--------------------------------------------------------------------------------------")
-
-# Función para mostrar el podio (los tres mejores atletas) ahora con medallas
+#1 Función para mostrar el podio (los tres mejores atletas) ahora con medallas
 def podiumPromedio(atletas):
     print("-------------------------------------------------------------------------------------")
     print("\tPODIUM DE MEDALLAS DE ATLETAS PARA MÁXIMO LEVANTAMIENTO PROMEDIO")
@@ -97,6 +35,7 @@ def podiumPromedio(atletas):
     
     print("--------------------------------------------------------------------------------------")
 
+#2 Función de record de levantamiento
 def PodiumRecord(atletas):
     # Ordenar a los atletas por el levantamiento máximo en un solo intento
     atletasOrdenados = sorted(
@@ -120,7 +59,7 @@ def PodiumRecord(atletas):
         print(f"{legajo:<7}| {atleta['nombreCompleto']:<20} {medalla} | {atleta['edad']:<5}| {intentos[0]:<10}| {intentos[1]:<10}| {intentos[2]:<10}| {max_levantamiento:<10}")
     print("-------------------------------------------------------------------------------------")
 
-#función para encontrar mínimo levantado en todo el torneo
+#3 Función para encontrar mínimo levantado en todo el torneo
 def buscarMinimoLevantamiento(atletas):
     minIntento = float(250)
     atletaMinimo = None
@@ -140,7 +79,7 @@ def buscarMinimoLevantamiento(atletas):
         print(f"Intentos (kg): {datos['intentos']}")
         print(f"Levantamiento mínimo (kg): {minIntento}")
 
-#función para encontrar el record de levantamiento en todo el torneo
+#4 Función para encontrar el record de levantamiento en todo el torneo
 def buscarMaximoLevantamiento(atletas):
     maxIntento = float(0)
     atletaMaximo = None
@@ -160,11 +99,11 @@ def buscarMaximoLevantamiento(atletas):
         print(f"Intentos (kg): {datos['intentos']}")
         print(f"Levantamiento máximo (kg): {maxIntento}")
 
-#función para encontrar el procentaje de clasificados mayor a 150 kilogramos para el Panamericano
+#5 Función para encontrar el procentaje de clasificados mayor a 150 kilogramos para el Panamericano
 def porcentajeClasificados(atletas):
     totalAtletas = len(atletas)
     cantidadClasificados = 0
-    
+    #ATENCIÓN CREAR UN BLOQUE PROTEGIDO RY EXCEPT PARA LISTA IS ES DIVISION POR 0 TRY EXCEPT
     for datos in atletas.values():
         if datos["promedio"] > objetivoClasificacion:#fijado en 150 al inicio
             cantidadClasificados += 1
@@ -175,7 +114,7 @@ def porcentajeClasificados(atletas):
     else:
         print(f"\nNo hay atletas clasificados a los siguientes Panamericanos con un promedio mayor a {objetivoClasificacion} kilogramos, porcentaje 0")
 
-#función para consultar el promedio de levantamiento de todos los atletas del torneo
+#6 Función para consultar el promedio de levantamiento de todos los atletas del torneo
 def promedioLevantamiento(atletas):
     sumador = 0
     cantidadIntentos = 0
@@ -187,7 +126,67 @@ def promedioLevantamiento(atletas):
     promedioTotal = round(sumador / cantidadIntentos, 2) if cantidadIntentos > 0 else 0
     print(f"\nEl promedio total entre todos los intentos de los participantes fue: {promedioTotal} kg")
 
-# Función de consulta pero ahora con un login y con clave en un documento llamado login.txt
+#7 Función donde mostramos la lista de atletas en formato de tabla desde el proyecto de fundamentos anterior pero ahora con un diccionario
+def mostrarListaCompleta(atletas):
+    print("-------------------------------------------------------------------------------------")
+    print("\tTABLA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024")
+    print("-------------------------------------------------------------------------------------")
+    print("Legajo | Atleta                | Edad | Int 1(kg)| Int 2(kg)| Int 3(kg)| Promedio(kg)")
+    print("-------------------------------------------------------------------------------------")
+    for legajo, datos in atletas.items():
+        nombreCompleto = datos["nombreCompleto"]
+        edad = datos["edad"]
+        intentos = datos["intentos"]
+        promedio = datos["promedio"]
+        print(f"{legajo:<6} | {nombreCompleto:<21} | {edad:<4} | {intentos[0]:<8} | {intentos[1]:<8} | {intentos[2]:<8} | {promedio:<8.2f}")
+    print("--------------------------------------------------------------------------------------")
+
+#8 función facherito de leer archivo csv e informar campeones max Promedio 
+def abrircsvpromedio(filename):
+    campeones=[]
+    try:
+        with open(filename,"rt") as fp:
+            
+            atletasauxiliar ={}
+            
+            for linea in fp:
+                valores = linea.strip().split(",")
+                if len(valores)<7:
+                    continue
+            
+                legajo=valores[0]
+                nombreCompleto=valores[1]
+                edad=int(valores[2])
+                intentos=list(map(int, valores[3:6]))
+                promedio=float(valores[6])
+                
+                atletasauxiliar[legajo] ={
+                    "nombreCompleto": nombreCompleto,
+                    "edad": edad,
+                    "intentos":intentos,
+                    "promedio":promedio
+                }
+            atletasOrdenados = sorted(
+                atletasauxiliar.items(),
+                key=lambda x: x[1]["promedio"],
+                reverse=True
+            )[:3]
+            
+            for legajos, datos in atletasOrdenados:
+                campeones.append({
+                    "legajo": legajo,
+                    "nombreCompleto": datos['nombreCompleto'],
+                    "edad":datos["edad"],
+                    "intentos":datos["intentos"],
+                    "promedio":datos["promedio"]
+                })
+                
+    except IOError:
+        print("¡Error en la apertura del archivo!")
+    return campeones
+        
+        
+#9 Función de consulta pero ahora con un login y con clave en un documento llamado login.txt
 def consultarAtleta(atletas):
     consulta = input("¿Estimado Juez(a), Desea consultar con legajo entre 1000 y 9999)\nEl perfil completo de levantamiento de un(a) atleta de la competencia? (si/no): ").strip().lower()
     
@@ -223,37 +222,7 @@ def consultarAtleta(atletas):
     else:
         print("Por favor, ingrese 'si' o 'no'.")
 
-
-
-def exportarInforme(atletas):
-    exportar = input("Desea exportar el informe del torneo? (si/no) ")
-    if exportar.lower() == "si":
-        informe = "informe.csv"
-        
-        # Crear o abrir el archivo CSV para escritura
-        with open(informe, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            
-            # Escribir el encabezado
-            writer.writerow(["Legajo", "Nombre Completo", "Edad", "Intento 1 (kg)", "Intento 2 (kg)", "Intento 3 (kg)", "Promedio (kg)", "Variacion de Progreso"])
-            
-            # Escribir los datos de los atletas
-            for legajo, datos in atletas.items():
-                writer.writerow([
-                    legajo, 
-                    datos["nombreCompleto"], 
-                    datos["edad"], 
-                    datos["intentos"],        # Expande la lista de intentos
-                    datos["promedio"],         # Promedio como valor único
-                    datos["variacion"]         # Variación como valor único
-                ])
-        
-        print(f"Informe exportado como '{informe}'.")
-    else:
-        print("Consulta finalizada.")
-
-
-#programa principal
+#10 programa principal
 def main():
     
     while True:
@@ -267,22 +236,24 @@ def main():
             print("Por favor, ingrese un número válido.")
     
     atletas = gen.crearDicAtletas(n)
-    guardarEnCSV(atletas)  # Guardamos los datos en un CSV
+    
+    #primera parte del UX/UI
     podiumPromedio(atletas)
     PodiumRecord(atletas)
     buscarMinimoLevantamiento(atletas)
     buscarMaximoLevantamiento(atletas)
     porcentajeClasificados(atletas)
     promedioLevantamiento(atletas)
-    # Cargar atletas desde CSV
+    mostrarListaCompleta(atletas)
     
-    print("\nCargando datos desde CSV...listo!!!")
-    atletasDesdeCSV = leerDesdeCSV("atletas.csv")
-    # Opcional: Puedes mostrar los atletas leídos desde el CSV
-    mostrarListaCompleta(atletasDesdeCSV)
-    # Consultar información de un atleta
-    consultarAtleta(atletasDesdeCSV)
-    exportarInforme(atletas)
+    filename = "atletas.csv"
+    campeones = abrircsvpromedio(filename)
+    print("\nCampeones con los promedios más altos:")
+    for atleta in campeones:
+        print(f"{atleta['legajo']} - {atleta['nombreCompleto']} - Promedio: {atleta['promedio']:.2f} kg")
+
+    #segunda parte del UX/UI
+    consultarAtleta(atletas)
 
     print("--------------------------------------------------------------------------------------------------------------")
     print("Gracias por usar nuestra mas reciente versión del sistema de Puntos del comite olímpico de la UADE")
