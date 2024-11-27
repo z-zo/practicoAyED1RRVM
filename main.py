@@ -1,7 +1,7 @@
 import generadorAtletas as gen
 import os
 
-# Constante para la clasificación Panamericano
+#0 Constante para la clasificación Panamericano
 objetivoClasificacion = 150
 
 #1 Función para mostrar el podio (los tres mejores atletas) ahora con medallas
@@ -141,7 +141,7 @@ def mostrarListaCompleta(atletas):
         print(f"{legajo:<6} | {nombreCompleto:<21} | {edad:<4} | {intentos[0]:<8} | {intentos[1]:<8} | {intentos[2]:<8} | {promedio:<8.2f}")
     print("--------------------------------------------------------------------------------------")
 
-#8 función facherito de leer archivo csv e informar campeones max Promedio 
+#8 función apertura y lectura de archivo csv e informar campeones max Promedio 
 def abrircsvpromedio(filename):
     campeones=[]
     try:
@@ -236,7 +236,6 @@ def main():
             print("Por favor, ingrese un número válido.")
     
     atletas = gen.crearDicAtletas(n)
-    
     #primera parte del UX/UI
     podiumPromedio(atletas)
     PodiumRecord(atletas)
