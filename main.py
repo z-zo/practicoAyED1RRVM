@@ -1,10 +1,27 @@
-import generadorAtletas as gen
+
 import os
+import abrircsv as gg
+from random import randint
 
 #0 Constante para la clasificación Panamericano
 objetivoClasificacion = 150
 
-#1 Función para mostrar el podio (los tres mejores atletas) ahora con medallas
+#Función donde mostramos la lista de atletas en formato de tabla desde el proyecto de fundamentos anterior pero ahora con un diccionario
+def mostrarListaCompleta(atletas):
+    print("-------------------------------------------------------------------------------------")
+    print("\tTABLA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024")
+    print("-------------------------------------------------------------------------------------")
+    print("Legajo | Atleta                | Edad | Int 1(kg)| Int 2(kg)| Int 3(kg)| Promedio(kg)")
+    print("-------------------------------------------------------------------------------------")
+    for legajo, datos in atletas.items():
+        nombreCompleto = datos["nombreCompleto"]
+        edad = datos["edad"]
+        intentos = datos["intentos"]
+        promedio = datos["promedio"]
+        print(f"{legajo:<6} | {nombreCompleto:<21} | {edad:<4} | {intentos[0]:<8} | {intentos[1]:<8} | {intentos[2]:<8} | {promedio:<8.2f}")
+    print("--------------------------------------------------------------------------------------")
+
+#Función para mostrar el podio (los tres mejores) ahora con medallas
 def podiumPromedio(atletas):
     print("-------------------------------------------------------------------------------------")
     print("\tPODIUM DE MEDALLAS DE ATLETAS PARA MÁXIMO LEVANTAMIENTO PROMEDIO")
@@ -35,7 +52,7 @@ def podiumPromedio(atletas):
     
     print("--------------------------------------------------------------------------------------")
 
-#2 Función de record de levantamiento
+#Función de record de levantamiento
 def PodiumRecord(atletas):
     # Ordenar a los atletas por el levantamiento máximo en un solo intento
     atletasOrdenados = sorted(
@@ -59,7 +76,7 @@ def PodiumRecord(atletas):
         print(f"{legajo:<7}| {atleta['nombreCompleto']:<20} {medalla} | {atleta['edad']:<5}| {intentos[0]:<10}| {intentos[1]:<10}| {intentos[2]:<10}| {max_levantamiento:<10}")
     print("-------------------------------------------------------------------------------------")
 
-#3 Función para encontrar mínimo levantado en todo el torneo
+#Función para encontrar mínimo levantado en todo el torneo
 def buscarMinimoLevantamiento(atletas):
     minIntento = float(250)
     atletaMinimo = None
@@ -79,7 +96,7 @@ def buscarMinimoLevantamiento(atletas):
         print(f"Intentos (kg): {datos['intentos']}")
         print(f"Levantamiento mínimo (kg): {minIntento}")
 
-#4 Función para encontrar el record de levantamiento en todo el torneo
+#Función para encontrar el record de levantamiento en todo el torneo
 def buscarMaximoLevantamiento(atletas):
     maxIntento = float(0)
     atletaMaximo = None
@@ -99,7 +116,7 @@ def buscarMaximoLevantamiento(atletas):
         print(f"Intentos (kg): {datos['intentos']}")
         print(f"Levantamiento máximo (kg): {maxIntento}")
 
-#5 Función para encontrar el procentaje de clasificados mayor a 150 kilogramos para el Panamericano
+#Función para encontrar el procentaje de clasificados mayor a 150 kilogramos para el Panamericano
 def porcentajeClasificados(atletas):
     totalAtletas = len(atletas)
     cantidadClasificados = 0
@@ -113,8 +130,9 @@ def porcentajeClasificados(atletas):
         print(f"\nEl porcentaje de clasificados mayores a {objetivoClasificacion} kilogramos para los siguientes Panamericanos es: {porcentaje} %")
     else:
         print(f"\nNo hay atletas clasificados a los siguientes Panamericanos con un promedio mayor a {objetivoClasificacion} kilogramos, porcentaje 0")
-
-#6 Función para consultar el promedio de levantamiento de todos los atletas del torneo
+    print("---------------------------------------------------------------------------------------------------")
+    
+#Función para consultar el promedio de levantamiento de todos los atletas del torneo
 def promedioLevantamiento(atletas):
     sumador = 0
     cantidadIntentos = 0
@@ -125,70 +143,11 @@ def promedioLevantamiento(atletas):
     
     promedioTotal = round(sumador / cantidadIntentos, 2) if cantidadIntentos > 0 else 0
     print(f"\nEl promedio total entre todos los intentos de los participantes fue: {promedioTotal} kg")
+    print("---------------------------------------------------------------------------------------------------")
 
-#7 Función donde mostramos la lista de atletas en formato de tabla desde el proyecto de fundamentos anterior pero ahora con un diccionario
-def mostrarListaCompleta(atletas):
-    print("-------------------------------------------------------------------------------------")
-    print("\tTABLA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024")
-    print("-------------------------------------------------------------------------------------")
-    print("Legajo | Atleta                | Edad | Int 1(kg)| Int 2(kg)| Int 3(kg)| Promedio(kg)")
-    print("-------------------------------------------------------------------------------------")
-    for legajo, datos in atletas.items():
-        nombreCompleto = datos["nombreCompleto"]
-        edad = datos["edad"]
-        intentos = datos["intentos"]
-        promedio = datos["promedio"]
-        print(f"{legajo:<6} | {nombreCompleto:<21} | {edad:<4} | {intentos[0]:<8} | {intentos[1]:<8} | {intentos[2]:<8} | {promedio:<8.2f}")
-    print("--------------------------------------------------------------------------------------")
-
-#8 función apertura y lectura de archivo csv e informar campeones max Promedio 
-def abrircsvpromedio(filename):
-    campeones=[]
-    try:
-        with open(filename,"rt") as fp:
-            
-            atletasauxiliar ={}
-            
-            for linea in fp:
-                valores = linea.strip().split(",")
-                if len(valores)<7:
-                    continue
-            
-                legajo=valores[0]
-                nombreCompleto=valores[1]
-                edad=int(valores[2])
-                intentos=list(map(int, valores[3:6]))
-                promedio=float(valores[6])
-                
-                atletasauxiliar[legajo] ={
-                    "nombreCompleto": nombreCompleto,
-                    "edad": edad,
-                    "intentos":intentos,
-                    "promedio":promedio
-                }
-            atletasOrdenados = sorted(
-                atletasauxiliar.items(),
-                key=lambda x: x[1]["promedio"],
-                reverse=True
-            )[:3]
-            
-            for legajos, datos in atletasOrdenados:
-                campeones.append({
-                    "legajo": legajo,
-                    "nombreCompleto": datos['nombreCompleto'],
-                    "edad":datos["edad"],
-                    "intentos":datos["intentos"],
-                    "promedio":datos["promedio"]
-                })
-                
-    except IOError:
-        print("¡Error en la apertura del archivo!")
-    return campeones
-        
-        
-#9 Función de consulta pero ahora con un login y con clave en un documento llamado login.txt
+#Función de consulta pero ahora con un login y con clave en un documento llamado login.txt
 def consultarAtleta(atletas):
-    consulta = input("¿Estimado Juez(a), Desea consultar con legajo entre 1000 y 9999)\nEl perfil completo de levantamiento de un(a) atleta de la competencia? (si/no): ").strip().lower()
+    consulta = input("¿Estimado Juez(a), Desea consultar con legajo de 4 dígitos entre la lista de atletas compitiendo?)\nEl perfil completo de levantamiento de un(a) atleta de la competencia? (si/no): ").strip().lower()
     
     if consulta == "si":
         usuario = input("Por favor, Juez(a), ingrese su nombre de usuario(a) en la plataforma: ")
@@ -222,50 +181,41 @@ def consultarAtleta(atletas):
     else:
         print("Por favor, ingrese 'si' o 'no'.")
 
-#10 programa principal
+#Programa principal
 def main():
-    
-    while True:
-        try:
-            n = int(input("Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024\nIngrese la cantidad de atletas a simular,\nPara finalizar; presione 0 o cualquier número negativo: "))
-            if n <= 0:
-                print("Usted ha finalizado el programa, Gracias por participar en el torneo Levantamiento UADE 2024")
-                return
-            break    
-        except ValueError:
-            print("Por favor, ingrese un número válido.")
-    
-    atletas = gen.crearDicAtletas(n)
-    #primera parte del UX/UI
-    podiumPromedio(atletas)
-    PodiumRecord(atletas)
-    buscarMinimoLevantamiento(atletas)
-    buscarMaximoLevantamiento(atletas)
-    porcentajeClasificados(atletas)
-    promedioLevantamiento(atletas)
-    mostrarListaCompleta(atletas)
-    
+    print("-------------------------------------------------------------------------------------")
+    print("Bienvenido al Programa de clasificación Olímpico de Levantamiento de Pesas UADE 2024")
+    print("-------------------------------------------------------------------------------------")
     filename = "atletas.csv"
-    campeones = abrircsvpromedio(filename)
-    print("\nCampeones con los promedios más altos:")
-    for atleta in campeones:
-        print(f"{atleta['legajo']} - {atleta['nombreCompleto']} - Promedio: {atleta['promedio']:.2f} kg")
+    try:
+        atletas = gg.diccionario(filename)
+        if not atletas:
+            print("El archivo CSV está vacío. Por favor, verifique el contenido.")
+            return
+    except OSError:
+        print("No se encontró el archivo CSV o ocurrió un error al intentar abrirlo.")
+        return
+    while True:
+        mostrarListaCompleta(atletas)
+        buscarMinimoLevantamiento(atletas)
+        buscarMaximoLevantamiento(atletas)
+        porcentajeClasificados(atletas)
+        promedioLevantamiento(atletas)
+        PodiumRecord(atletas)
+        
+        print("\nAtletas con los promedios más altos:")
+        gg.campeones(atletas)
+        podiumPromedio(atletas)
+        
+        consultarAtleta(atletas)
+        # Preguntar al usuario si desea continuar o salir
+        continuar = input("\n¿Desea realizar otra consulta o ver resultados nuevamente? (si/no): ").strip().lower()
+        if continuar == "no":
+            print("Gracias por usar nuestra más reciente versión del sistema de Puntos del Comité Olímpico de la UADE.")
+            break
+        elif continuar != "si":
+            print("Opción no válida. Asumiendo que desea salir. Hasta luego.")
+            break
 
-    #segunda parte del UX/UI
-    consultarAtleta(atletas)
-
-    print("--------------------------------------------------------------------------------------------------------------")
-    print("Gracias por usar nuestra mas reciente versión del sistema de Puntos del comite olímpico de la UADE")
-    print("Para dar comentarios en la mejora del programa por parte de Entrenadores, Jueces u organizadores del programa,")
-    print("\t No dude en escribirnos en comiteolimpico@uade.edu.ar")
-    print("--------------------------------------------------------------------------------------------------------------")
-    
-    print("--------------------------------------------------------------------------------------------------------------")
-    print("\t SISTEMA DE RESULTADOS DE LA COMPETENCIA DE LEVANTAMIENTO UADE 2024 (c) VERSION 3.0 ")
-    print("--------------------------------------------------------------------------------------------------------------")
-    print("\t Todos los derechos reservados - Escuela del Sur™ - Programación 1 ")
-    print("--------------------------------------------------------------------------------------------------------------")
-
-#llamada de main
 if __name__ == "__main__":
     main()
